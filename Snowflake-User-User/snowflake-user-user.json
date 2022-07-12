@@ -1,0 +1,89 @@
+{
+    "typeName": "Snowflake::User::User",
+    "description": "An example resource schema demonstrating some basic constructs and validation rules.",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
+    "typeConfiguration": {
+        "properties": {
+            "Account": {
+                "type": "string"
+            },
+            "Username": {
+                "type": "string"
+            },
+            "Password": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "Account",
+            "Username"
+        ],
+        "additionalProperties": false
+    },
+    "definitions": {
+        "User": {
+            "type": "object",
+            "properties": {
+                "Name": {
+                    "type": "string",
+                    "description": "Specifies the identifier for the database; must be unique for your account."
+                },
+                "Password": {
+                    "type": "string"
+                },
+                "Comment": {
+                    "type": "string",
+                    "description": "Specifies a comment for the user."
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "properties": {
+        "Name": {
+            "type": "string",
+            "description": "Specifies the identifier for the database; must be unique for your account."
+        },
+        "Password": {
+            "type": "string"
+        },
+        "Comment": {
+            "type": "string",
+            "description": "Specifies a comment for the user."
+        },
+        "User": {
+            "$ref": "#/definitions/User"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "Name",
+        "Password"
+    ],
+    "createOnlyProperties": [
+        "/properties/Name"
+    ],
+    "readOnlyProperties": [
+        "/properties/User"
+    ],
+    "primaryIdentifier": [
+        "/properties/Name"
+    ],
+    "handlers": {
+        "create": {
+            "permissions": []
+        },
+        "read": {
+            "permissions": []
+        },
+        "update": {
+            "permissions": []
+        },
+        "delete": {
+            "permissions": []
+        },
+        "list": {
+            "permissions": []
+        }
+    }
+}
