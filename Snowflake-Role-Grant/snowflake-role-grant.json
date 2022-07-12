@@ -1,0 +1,85 @@
+{
+    "typeName": "Snowflake::Role::Grant",
+    "description": "An example resource schema demonstrating some basic constructs and validation rules.",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
+    "typeConfiguration": {
+        "properties": {
+            "Account": {
+                "type": "string"
+            },
+            "Username": {
+                "type": "string"
+            },
+            "Password": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "Account",
+            "Username"
+        ],
+        "additionalProperties": false
+    },
+    "definitions": {
+        "RoleGrant": {
+            "type": "object",
+            "properties": {
+                "RoleName": {
+                    "type": "string"
+                },
+                "Privilege": {
+                    "type": "string"
+                },
+                "User": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "properties": {
+        "RoleName": {
+            "type": "string"
+        },
+        "Privilege": {
+            "type": "string"
+        },
+        "User": {
+            "type": "string"
+        },
+        "RoleGrant": {
+            "$ref": "#/definitions/RoleGrant"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "/properties/RoleName",
+        "/properties/Privilege",
+        "/properties/User"
+    ],
+    "readOnlyProperties": [
+        "/properties/RoleGrant"
+    ],
+    "primaryIdentifier": [
+        "/properties/RoleName",
+        "/properties/Privilege",
+        "/properties/User"
+    ],
+    "handlers": {
+        "create": {
+            "permissions": []
+        },
+        "read": {
+            "permissions": []
+        },
+        "update": {
+            "permissions": []
+        },
+        "delete": {
+            "permissions": []
+        },
+        "list": {
+            "permissions": []
+        }
+    }
+}
