@@ -11,8 +11,6 @@ export class ResourceModel extends BaseModel {
     @Exclude()
     protected readonly IDENTIFIER_KEY_ROLENAME: string = '/properties/RoleName';
     @Exclude()
-    protected readonly IDENTIFIER_KEY_PRIVILEGE: string = '/properties/Privilege';
-    @Exclude()
     protected readonly IDENTIFIER_KEY_USER: string = '/properties/User';
 
     @Expose({ name: 'RoleName' })
@@ -24,15 +22,6 @@ export class ResourceModel extends BaseModel {
         }
     )
     roleName?: Optional<string>;
-    @Expose({ name: 'Privilege' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(String, 'privilege', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    privilege?: Optional<string>;
     @Expose({ name: 'User' })
     @Transform(
         (value: any, obj: any) =>
@@ -53,16 +42,12 @@ export class ResourceModel extends BaseModel {
             identifier[this.IDENTIFIER_KEY_ROLENAME] = this.roleName;
         }
 
-        if (this.privilege != null) {
-            identifier[this.IDENTIFIER_KEY_PRIVILEGE] = this.privilege;
-        }
-
         if (this.user != null) {
             identifier[this.IDENTIFIER_KEY_USER] = this.user;
         }
 
         // only return the identifier if it can be used, i.e. if all components are present
-        return Object.keys(identifier).length === 3 ? identifier : null;
+        return Object.keys(identifier).length === 2 ? identifier : null;
     }
 
     @Exclude()
@@ -86,15 +71,6 @@ export class RoleGrant extends BaseModel {
         }
     )
     roleName?: Optional<string>;
-    @Expose({ name: 'Privilege' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(String, 'privilege', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    privilege?: Optional<string>;
     @Expose({ name: 'User' })
     @Transform(
         (value: any, obj: any) =>

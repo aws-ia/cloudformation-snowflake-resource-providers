@@ -11,7 +11,7 @@ import {
     ResourceHandlerRequest,
     SessionProxy
 } from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib";
-    import {NotFound} from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib/dist/exceptions";
+import {NotFound}  from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib/dist/exceptions";
 
 export interface RetryableCallbackContext {
     retry?: number
@@ -80,16 +80,6 @@ export abstract class AbstractBasedResource<ResourceModelType extends BaseModel,
     abstract setModelFrom(model: ResourceModelType, from?: GetResponseData | CreateResponseData): ResourceModelType;
 
     /**
-     * This method is invoked when an exception is thrown while calling get, list, create, update or delete methods.
-     * This should process the exception in turn thrown one of the CloudFormation framework exception, e.g
-     * `new exceptions.NotFound()`
-     *
-     * @param e The exception to process
-     * @param request The current CloudFormation request
-     */
-    abstract processRequestException(e: ErrorType, request: ResourceHandlerRequest<ResourceModelType>): void;
-
-    /**
      * CloudFormation invokes this handler when the resource is initially created
      * during stack create operations.
      *
@@ -104,8 +94,9 @@ export abstract class AbstractBasedResource<ResourceModelType extends BaseModel,
         session: Optional<SessionProxy>,
         request: ResourceHandlerRequest<ResourceModelType>,
         callbackContext: RetryableCallbackContext,
-        typeConfiguration: TypeConfigurationModel,
-        logger: LoggerProxy
+        logger: LoggerProxy,
+        typeConfiguration: TypeConfigurationModel
+
     ): Promise<ProgressEvent<ResourceModelType, RetryableCallbackContext>> {
         let model = this.newModel(request.desiredResourceState);
         if (!callbackContext.retry) {
@@ -145,6 +136,16 @@ export abstract class AbstractBasedResource<ResourceModelType extends BaseModel,
     }
 
     /**
+     * This method is invoked when an exception is thrown while calling get, list, create, update or delete methods.
+     * This should process the exception in turn thrown one of the CloudFormation framework exception, e.g
+     * `new exceptions.NotFound()`
+     *
+     * @param e The exception to process
+     * @param request The current CloudFormation request
+     */
+    abstract processRequestException(e: ErrorType, request: ResourceHandlerRequest<ResourceModelType>): void;
+
+    /**
      * CloudFormation invokes this handler when the resource is updated
      * as part of a stack update operation.
      *
@@ -159,8 +160,8 @@ export abstract class AbstractBasedResource<ResourceModelType extends BaseModel,
         session: Optional<SessionProxy>,
         request: ResourceHandlerRequest<ResourceModelType>,
         callbackContext: RetryableCallbackContext,
-        typeConfiguration: TypeConfigurationModel,
-        logger: LoggerProxy
+        logger: LoggerProxy,
+        typeConfiguration: TypeConfigurationModel
     ): Promise<ProgressEvent<ResourceModelType, RetryableCallbackContext>> {
         let model = this.newModel(request.desiredResourceState);
 
@@ -195,8 +196,8 @@ export abstract class AbstractBasedResource<ResourceModelType extends BaseModel,
         session: Optional<SessionProxy>,
         request: ResourceHandlerRequest<ResourceModelType>,
         callbackContext: RetryableCallbackContext,
-        typeConfiguration: TypeConfigurationModel,
-        logger: LoggerProxy
+        logger: LoggerProxy,
+        typeConfiguration: TypeConfigurationModel
     ): Promise<ProgressEvent<ResourceModelType, RetryableCallbackContext>> {
         let model = this.newModel(request.desiredResourceState);
         if (!callbackContext.retry) {
@@ -254,8 +255,8 @@ export abstract class AbstractBasedResource<ResourceModelType extends BaseModel,
         session: Optional<SessionProxy>,
         request: ResourceHandlerRequest<ResourceModelType>,
         callbackContext: RetryableCallbackContext,
-        typeConfiguration: TypeConfigurationModel,
-        logger: LoggerProxy
+        logger: LoggerProxy,
+        typeConfiguration: TypeConfigurationModel
     ): Promise<ProgressEvent<ResourceModelType, RetryableCallbackContext>> {
         let model = this.newModel(request.desiredResourceState);
 
@@ -284,8 +285,8 @@ export abstract class AbstractBasedResource<ResourceModelType extends BaseModel,
         session: Optional<SessionProxy>,
         request: ResourceHandlerRequest<ResourceModelType>,
         callbackContext: RetryableCallbackContext,
-        typeConfiguration: TypeConfigurationModel,
-        logger: LoggerProxy
+        logger: LoggerProxy,
+        typeConfiguration: TypeConfigurationModel
     ): Promise<ProgressEvent<ResourceModelType, RetryableCallbackContext>> {
         const model = this.newModel(request.desiredResourceState);
 

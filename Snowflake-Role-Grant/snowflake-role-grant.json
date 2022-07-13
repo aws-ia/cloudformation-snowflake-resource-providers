@@ -27,9 +27,6 @@
                 "RoleName": {
                     "type": "string"
                 },
-                "Privilege": {
-                    "type": "string"
-                },
                 "User": {
                     "type": "string"
                 }
@@ -39,9 +36,6 @@
     },
     "properties": {
         "RoleName": {
-            "type": "string"
-        },
-        "Privilege": {
             "type": "string"
         },
         "User": {
@@ -54,7 +48,6 @@
     "additionalProperties": false,
     "required": [
         "/properties/RoleName",
-        "/properties/Privilege",
         "/properties/User"
     ],
     "readOnlyProperties": [
@@ -62,7 +55,6 @@
     ],
     "primaryIdentifier": [
         "/properties/RoleName",
-        "/properties/Privilege",
         "/properties/User"
     ],
     "handlers": {

@@ -83,10 +83,6 @@
     "readOnlyProperties": [
         "/properties/Database"
     ],
-    "writeOnlyProperties": [
-        "/properties/MaxDataExtensionTimeInDays",
-        "/properties/DefaultDdlCollation"
-    ],
     "primaryIdentifier": [
         "/properties/Name"
     ],

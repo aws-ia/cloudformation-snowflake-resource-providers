@@ -29,6 +29,141 @@ export class ResourceModel extends BaseModel {
         }
     )
     password?: Optional<string>;
+    @Expose({ name: 'LoginName' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'loginName', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    loginName?: Optional<string>;
+    @Expose({ name: 'DisplayName' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'displayName', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    displayName?: Optional<string>;
+    @Expose({ name: 'FirstName' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'firstName', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    firstName?: Optional<string>;
+    @Expose({ name: 'MiddleName' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'middleName', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    middleName?: Optional<string>;
+    @Expose({ name: 'LastName' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'lastName', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    lastName?: Optional<string>;
+    @Expose({ name: 'Email' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'email', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    email?: Optional<string>;
+    @Expose({ name: 'MustChangePassword' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(Boolean, 'mustChangePassword', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    mustChangePassword?: Optional<boolean>;
+    @Expose({ name: 'Disabled' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(Boolean, 'disabled', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    disabled?: Optional<boolean>;
+    @Expose({ name: 'DaysToExpiry' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(Integer, 'daysToExpiry', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    daysToExpiry?: Optional<integer>;
+    @Expose({ name: 'MinsToUnlock' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(Integer, 'minsToUnlock', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    minsToUnlock?: Optional<integer>;
+    @Expose({ name: 'DefaultWarehouse' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'defaultWarehouse', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    defaultWarehouse?: Optional<string>;
+    @Expose({ name: 'DefaultRole' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'defaultRole', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    defaultRole?: Optional<string>;
+    @Expose({ name: 'MinsToBypassMfa' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(Integer, 'minsToBypassMfa', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    minsToBypassMfa?: Optional<integer>;
+    @Expose({ name: 'RsaPublicKey' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'rsaPublicKey', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    rsaPublicKey?: Optional<string>;
+    @Expose({ name: 'RsaPublicKey2' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'rsaPublicKey2', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    rsaPublicKey2?: Optional<string>;
     @Expose({ name: 'Comment' })
     @Transform(
         (value: any, obj: any) =>
@@ -83,6 +218,141 @@ export class User extends BaseModel {
         }
     )
     password?: Optional<string>;
+    @Expose({ name: 'LoginName' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'loginName', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    loginName?: Optional<string>;
+    @Expose({ name: 'DisplayName' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'displayName', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    displayName?: Optional<string>;
+    @Expose({ name: 'FirstName' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'firstName', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    firstName?: Optional<string>;
+    @Expose({ name: 'MiddleName' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'middleName', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    middleName?: Optional<string>;
+    @Expose({ name: 'LastName' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'lastName', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    lastName?: Optional<string>;
+    @Expose({ name: 'Email' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'email', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    email?: Optional<string>;
+    @Expose({ name: 'MustChangePassword' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(Boolean, 'mustChangePassword', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    mustChangePassword?: Optional<boolean>;
+    @Expose({ name: 'Disabled' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(Boolean, 'disabled', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    disabled?: Optional<boolean>;
+    @Expose({ name: 'DaysToExpiry' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(Integer, 'daysToExpiry', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    daysToExpiry?: Optional<integer>;
+    @Expose({ name: 'MinsToUnlock' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(Integer, 'minsToUnlock', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    minsToUnlock?: Optional<integer>;
+    @Expose({ name: 'DefaultWarehouse' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'defaultWarehouse', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    defaultWarehouse?: Optional<string>;
+    @Expose({ name: 'DefaultRole' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'defaultRole', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    defaultRole?: Optional<string>;
+    @Expose({ name: 'MinsToBypassMfa' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(Integer, 'minsToBypassMfa', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    minsToBypassMfa?: Optional<integer>;
+    @Expose({ name: 'RsaPublicKey' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'rsaPublicKey', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    rsaPublicKey?: Optional<string>;
+    @Expose({ name: 'RsaPublicKey2' })
+    @Transform(
+        (value: any, obj: any) =>
+            transformValue(String, 'rsaPublicKey2', value, obj, []),
+        {
+            toClassOnly: true,
+        }
+    )
+    rsaPublicKey2?: Optional<string>;
     @Expose({ name: 'Comment' })
     @Transform(
         (value: any, obj: any) =>

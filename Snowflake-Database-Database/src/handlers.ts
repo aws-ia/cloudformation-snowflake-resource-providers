@@ -1,27 +1,28 @@
 import {AbstractSnowflakeResource} from "../../Snowflake-Common/src/abstract-snowflake-resource"
 import {SnowflakeClient} from "../../Snowflake-Common/src/snowflake-client"
-
+import {NotFound}  from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib/dist/exceptions"
 import { ResourceModel, Database, TypeConfigurationModel } from './models';
 
 type ShowDatabase = {
-    NAME: string,
-    COMMENT: string,
-    RETENTION_TIME: bigint
+    name: string,
+    comment: string,
+    retention_time: bigint
 }
 
 class Resource extends AbstractSnowflakeResource<ResourceModel, Database, Database, Database, TypeConfigurationModel> {
 
     async get(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel> {
         let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
-        let command = 'SHOW DATABASES LIKE ' + model.name;
-
+        let command = `SHOW DATABASES LIKE '${model.name}'`;
         let databases = await client.doRequest(command, []);
+        if (databases.length == 0) {
+            throw new NotFound("Database", model.name);
+        }
         let db = databases[0];
-
         return new ResourceModel(<ResourceModel> {
-            name: db.NAME,
-            comment: db.COMMENT,
-            dataRetentionTimeInDays: db.RETENTION_TIME
+            name: db.name,
+            comment: db.comment,
+            dataRetentionTimeInDays: db.retention_time
         });
     }
 
@@ -32,11 +33,12 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, Database, Databa
         let databases = await client.doRequest(command, []);
         let results: ResourceModel[]= [];
 
-        databases.forEach(function(db) {
+        await databases.forEach(function(row) {
+            let db = <ShowDatabase>row;
             results.push(new ResourceModel(<ResourceModel> {
-                name: db.NAME,
-                comment: db.COMMENT,
-                dataRetentionTimeInDays: db.RETENTION_TIME
+                name: db.name,
+                comment: db.comment,
+                dataRetentionTimeInDays: db.retention_time
             }));
         })
 
@@ -46,11 +48,9 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, Database, Databa
     async create(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel> {
         let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
         let commands: string[] = ['CREATE DATABASE ' + model.name];
-
         if (model.dataRetentionTimeInDays) {
             commands.push('')
         }
-
         let command = commands.join(" ");
 
         await client.doRequest(command, []);
@@ -64,9 +64,9 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, Database, Databa
 
     async update(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel> {
         let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
-        let commands: string[] = ['ALTER DATABASE ' + model.name];
-        commands.push('SET COMMENT = "' + model.comment + '"');
-        commands.push('SET DATA_RETENTION_TIME_IN_DAYS = ' + model.dataRetentionTimeInDays);
+        let commands: string[] = [`ALTER DATABASE ${model.name} SET`];
+        commands.push(`COMMENT = '${model.comment}'`);
+        commands.push(`DATA_RETENTION_TIME_IN_DAYS = ${model.dataRetentionTimeInDays}`);
 
         let command = commands.join(" ");
 
@@ -94,7 +94,7 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, Database, Databa
     }
 }
 
-export const resource = new Resource(ResourceModel.TYPE_NAME, ResourceModel);
+export const resource = new Resource(ResourceModel.TYPE_NAME, ResourceModel, null, null, TypeConfigurationModel);
 
 // Entrypoint for production usage after registered in CloudFormation
 export const entrypoint = resource.entrypoint;

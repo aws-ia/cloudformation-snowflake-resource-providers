@@ -3,34 +3,39 @@ import {SnowflakeClient} from "../../Snowflake-Common/src/snowflake-client"
 
 import { ResourceModel, Role, TypeConfigurationModel } from './models';
 
+type ShownRole = {
+    NAME: string,
+    COMMENT: string
+}
+
 class Resource extends AbstractSnowflakeResource<ResourceModel, Role, Role, Role, TypeConfigurationModel> {
 
     async get(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel> {
-        // let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
-        // let command = 'SHOW DATABASES LIKE ' + model.name;
-        //
-        // let databases = await client.doRequest(command, []);
-        // let db = databases[0];
+        let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
+
+        let command = 'SHOW ROLES LIKE ' + model.name;
+        let roles = await client.doRequest(command, []);
+
+        let role = <ShownRole>roles[0];
 
         return new ResourceModel(<ResourceModel> {
-            // name: db.NAME,
-            // comment: db.COMMENT,
-            // dataRetentionTimeInDays: db.RETENTION_TIME
+            name: role.NAME,
+            comment: role.COMMENT
         });
     }
 
     async list(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel[]> {
         let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
-        let command = 'SHOW DATABASES'
+        let command = 'SHOW ROLES'
 
         let databases = await client.doRequest(command, []);
         let results: ResourceModel[]= [];
 
-        databases.forEach(function(db) {
+        databases.forEach(function(row) {
+            let role = <ShownRole>row;
             results.push(new ResourceModel(<ResourceModel> {
-                // name: db.NAME,
-                // comment: db.COMMENT,
-                // dataRetentionTimeInDays: db.RETENTION_TIME
+                name: role.NAME,
+                comment: role.COMMENT
             }));
         })
 
@@ -38,45 +43,39 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, Role, Role, Role
     }
 
     async create(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel> {
-        // let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
-        // let commands: string[] = ['CREATE DATABASE ' + model.name];
-        //
-        // if (model.dataRetentionTimeInDays) {
-        //     commands.push('')
-        // }
-        //
-        // let command = commands.join(" ");
-        //
-        // await client.doRequest(command, []);
+        let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
+        let commands: string[] = ['CREATE ROLE ' + model.name];
+        if (model.comment) {
+            commands.push("COMMENT '" + model.comment + "'");
+        }
+        let command = commands.join(" ");
+        await client.doRequest(command, []);
 
         return new ResourceModel(<ResourceModel> {
-            // name: model.name,
-            // comment: model.comment,
-            // dataRetentionTimeInDays: model.dataRetentionTimeInDays
-        })
+            name: model.name,
+            comment: model.comment
+        });
     }
 
     async update(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel> {
-        // let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
-        // let commands: string[] = ['ALTER DATABASE ' + model.name];
-        // commands.push('SET COMMENT = "' + model.comment + '"');
-        // commands.push('SET DATA_RETENTION_TIME_IN_DAYS = ' + model.dataRetentionTimeInDays);
-        //
-        // let command = commands.join(" ");
-        //
-        // await client.doRequest(command, []);
+        let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
+        let command = model.comment ?
+            "COMMENT ON ROLE " + model.name + " IS '" + model.comment + "'" :
+            "ALTER ROLE " + model.name + " UNSET COMMENT";
+
+        await client.doRequest(command, []);
 
         return new ResourceModel(<ResourceModel> {
-            // name: model.name,
-            // comment: model.comment,
-            // dataRetentionTimeInDays: model.dataRetentionTimeInDays
+            name: model.name,
+            comment: model.comment
         })
     }
 
     async delete(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<void> {
-        // let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
-        // let command = 'DROP DATABASE ' + model.name;
-        // await client.doRequest(command, []);
+        let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
+        let command = "ALTER ROLE " + model.name + " UNSET COMMENT";
+
+        await client.doRequest(command, []);
     }
 
     newModel(partial: any): ResourceModel {
