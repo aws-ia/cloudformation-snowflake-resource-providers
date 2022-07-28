@@ -13,10 +13,9 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-        "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib": "https://github.com/cloudsoft/cloudformation-cli-typescript-plugin/releases/download/cs-release/cloudformation-cli-typescript-plugin.tar.gz",
+        "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib": "https://github.com/cloudsoft/cloudformation-cli-typescript-plugin/releases/download/cs-release/amazon-web-services-cloudformation-cloudformation-cli-typescript-lib-1.0.1.tgz",
         "class-transformer": "0.3.1",
-        "snowflake-sdk": "^1.6.11",
-        "snowflake-common": "file:../snowflake-common"
+        "snowflake-sdk": "^1.6.11"
     },
     "devDependencies": {
         "jest": "^27.5.1",
