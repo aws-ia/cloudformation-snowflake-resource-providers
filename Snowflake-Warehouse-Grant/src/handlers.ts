@@ -2,23 +2,28 @@ import {AbstractSnowflakeResource} from "../../Snowflake-Common/src/abstract-sno
 import {SnowflakeClient} from "../../Snowflake-Common/src/snowflake-client"
 
 import { ResourceModel, WarehouseGrant, TypeConfigurationModel } from './models';
+import {NotFound} from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib/dist/exceptions";
 
 type ShownGrant = {
-    GRANTED_ON: string,
-    GRANTED_TO: string,
-    GRANTEE_NAME: string,
-    PRIVILEGE: string
+    granted_on: string,
+    granted_to: string,
+    grantee_name: string,
+    privilege: string
 }
 
 class Resource extends AbstractSnowflakeResource<ResourceModel, WarehouseGrant, WarehouseGrant, WarehouseGrant, TypeConfigurationModel> {
 
     async get(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel> {
         let allGrants = await this.list(model, typeConfiguration);
-        return allGrants.find(rm => {
-            return rm.privilege === model.privilege &&
-                rm.warehouseName === model.warehouseName &&
-                rm.role === model.role;
+        let result = allGrants.find(rm => {
+            return rm.privilege.toLowerCase() === model.privilege.toLowerCase() &&
+                rm.warehouseName.toLowerCase() === model.warehouseName.toLowerCase() &&
+                rm.role.toLowerCase() === model.role.toLowerCase();
         });
+        if (result === undefined) {
+            throw new NotFound("Grant", `${model.warehouseName}, ${model.role}`);
+        }
+        return result;
     }
 
     async list(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel[]> {
@@ -31,14 +36,14 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, WarehouseGrant, 
         grants
             .filter(row => {
                 let grant = <ShownGrant>row;
-                return grant.GRANTED_ON.toUpperCase() === "role";
+                return grant.granted_on.toUpperCase() === "role";
             })
             .forEach(function(row) {
                 let grant = <ShownGrant>row;
                 results.push(new ResourceModel(<ResourceModel> {
                         warehouseName: model.warehouseName,
-                        privilege: grant.PRIVILEGE,
-                        role: grant.GRANTEE_NAME
+                        privilege: grant.privilege,
+                        role: grant.grantee_name
                     }
                 ))})
 
@@ -48,9 +53,9 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, WarehouseGrant, 
     async create(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel> {
         let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
         let command =
-            "GRANT " + model.privilege +
-            ' ON WAREHOUSE ' + model.warehouseName +
-            ' TO ROLE ' + model.role;
+            `GRANT ${model.privilege}
+             ON WAREHOUSE ${model.warehouseName}
+             TO ROLE ${model.role}`;
 
         await client.doRequest(command, []);
 
@@ -65,9 +70,9 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, WarehouseGrant, 
     async delete(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<void> {
         let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
         let command =
-            "REVOKE " + model.privilege +
-            ' ON WAREHOUSE ' + model.warehouseName +
-            ' FROM ROLE ' + model.role;
+            `REVOKE ${model.privilege}
+             ON WAREHOUSE ${model.warehouseName}
+             FROM role ${model.role}`;
 
         await client.doRequest(command, []);
     }
@@ -81,7 +86,7 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, WarehouseGrant, 
     }
 }
 
-export const resource = new Resource(ResourceModel.TYPE_NAME, ResourceModel);
+export const resource = new Resource(ResourceModel.TYPE_NAME, ResourceModel, null, null, TypeConfigurationModel);
 
 // Entrypoint for production usage after registered in CloudFormation
 export const entrypoint = resource.entrypoint;

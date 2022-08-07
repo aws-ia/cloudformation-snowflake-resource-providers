@@ -2,28 +2,33 @@ import {AbstractSnowflakeResource} from "../../Snowflake-Common/src/abstract-sno
 import {SnowflakeClient} from "../../Snowflake-Common/src/snowflake-client"
 
 import { ResourceModel, DatabaseGrant, TypeConfigurationModel } from './models';
+import {NotFound} from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib/dist/exceptions";
 
 type ShownGrant = {
-    GRANTED_ON: string,
-    GRANTED_TO: string,
-    GRANTEE_NAME: string,
-    PRIVILEGE: string
+    granted_on: string,
+    granted_to: string,
+    grantee_name: string,
+    privilege: string
 }
 
 class Resource extends AbstractSnowflakeResource<ResourceModel, DatabaseGrant, DatabaseGrant, DatabaseGrant, TypeConfigurationModel> {
 
     async get(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel> {
         let allGrants = await this.list(model, typeConfiguration);
-        return allGrants.find(rm => {
-            return rm.privilege === model.privilege &&
-                rm.databaseName === model.databaseName &&
-                rm.role === model.role;
+        let result =  allGrants.find(rm => {
+            return rm.privilege.toLowerCase() === model.privilege.toLowerCase() &&
+                rm.databaseName.toLowerCase() === model.databaseName.toLowerCase() &&
+                rm.role.toLowerCase() === model.role.toLowerCase();
         });
+        if (result === undefined) {
+            throw new NotFound("Grant", `${model.databaseName}, ${model.role}`);
+        }
+        return result;
     }
 
     async list(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel[]> {
         let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
-        let command = 'SHOW GRANTS ON ' + model.databaseName;
+        let command = `SHOW GRANTS ON DATABASE ${model.databaseName}`;
 
         let grants = await client.doRequest(command, []);
         let results: ResourceModel[]= [];
@@ -31,14 +36,14 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, DatabaseGrant, D
         grants
             .filter(row => {
                 let grant = <ShownGrant>row;
-                return grant.GRANTED_ON.toUpperCase() === "role";
+                return grant.granted_to?.toLowerCase() === "role";
             })
             .forEach(function(row) {
                 let grant = <ShownGrant>row;
                 results.push(new ResourceModel(<ResourceModel> {
                     databaseName: model.databaseName,
-                    privilege: grant.PRIVILEGE,
-                    role: grant.GRANTEE_NAME
+                    privilege: grant.privilege,
+                    role: grant.grantee_name
                 }
             ))})
 
@@ -48,9 +53,9 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, DatabaseGrant, D
     async create(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel> {
         let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
         let command =
-            "GRANT " + model.privilege +
-            ' ON DATABASE ' + model.databaseName +
-            ' TO ROLE ' + model.role;
+            `GRANT ${model.privilege} 
+             ON DATABASE ${model.databaseName}
+             TO ROLE ${model.role}`;
 
         await client.doRequest(command, []);
 
@@ -65,9 +70,9 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, DatabaseGrant, D
     async delete(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<void> {
         let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
         let command =
-            "REVOKE " + model.privilege +
-            ' ON DATABASE ' + model.databaseName +
-            ' FROM ROLE ' + model.role;
+            `REVOKE ${model.privilege}
+             ON DATABASE ${model.databaseName}
+             FROM ROLE ${model.role}`;
 
         await client.doRequest(command, []);
     }
@@ -81,7 +86,7 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, DatabaseGrant, D
     }
 }
 
-export const resource = new Resource(ResourceModel.TYPE_NAME, ResourceModel);
+export const resource = new Resource(ResourceModel.TYPE_NAME, ResourceModel, null, null, TypeConfigurationModel);
 
 // Entrypoint for production usage after registered in CloudFormation
 export const entrypoint = resource.entrypoint;

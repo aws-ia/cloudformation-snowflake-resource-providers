@@ -53,9 +53,6 @@
     "required": [
         "Name"
     ],
-    "createOnlyProperties": [
-        "/properties/Name"
-    ],
     "readOnlyProperties": [
         "/properties/Role"
     ],

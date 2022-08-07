@@ -68,7 +68,7 @@
                 },
                 "DaysToExpiry": {
                     "type": "integer",
-                    "description": "Specifies the number of days after which the user status is set to “Expired” and the user is no longer allowed to log in."
+                    "description": "Specifies the number of days after which the user status is set to Expired and the user is no longer allowed to log in."
                 },
                 "MinsToUnlock": {
                     "type": "integer",
@@ -147,7 +147,7 @@
         },
         "DaysToExpiry": {
             "type": "integer",
-            "description": "Specifies the number of days after which the user status is set to “Expired” and the user is no longer allowed to log in."
+            "description": "Specifies the number of days after which the user status is set to Expired and the user is no longer allowed to log in."
         },
         "MinsToUnlock": {
             "type": "integer",

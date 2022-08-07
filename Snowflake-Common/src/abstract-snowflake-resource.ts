@@ -13,7 +13,7 @@ export abstract class AbstractSnowflakeResource<ResourceModelType extends BaseMo
         if (e instanceof BaseHandlerException) {
             throw e;
         }
-        throw new exceptions.InternalFailure(`Unexpected error occurred while talking to the Snowflake API => ${e.message}`);
+        throw new exceptions.InternalFailure(`Unexpected error occurred while talking to the Snowflake API => ${JSON.stringify(e)}`);
     }
 }
 

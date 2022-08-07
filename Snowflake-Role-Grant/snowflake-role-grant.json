@@ -47,15 +47,19 @@
     },
     "additionalProperties": false,
     "required": [
+        "RoleName",
+        "User"
+    ],
+    "createOnlyProperties": [
+        "/properties/RoleName",
+        "/properties/User"
+    ],
+    "primaryIdentifier": [
         "/properties/RoleName",
         "/properties/User"
     ],
     "readOnlyProperties": [
         "/properties/RoleGrant"
-    ],
-    "primaryIdentifier": [
-        "/properties/RoleName",
-        "/properties/User"
     ],
     "handlers": {
         "create": {

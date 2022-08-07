@@ -1,4 +1,4 @@
-# Snowflake::Role::Grant
+# Snowflake::Warehouse::Grant
 
 An example resource schema demonstrating some basic constructs and validation rules.
 
@@ -10,10 +10,11 @@ To declare this entity in your AWS CloudFormation template, use the following sy
 
 <pre>
 {
-    "Type" : "Snowflake::Role::Grant",
+    "Type" : "Snowflake::Warehouse::Grant",
     "Properties" : {
-        "<a href="#rolename" title="RoleName">RoleName</a>" : <i>String</i>,
-        "<a href="#user" title="User">User</a>" : <i>String</i>,
+        "<a href="#warehousename" title="WarehouseName">WarehouseName</a>" : <i>String</i>,
+        "<a href="#privilege" title="Privilege">Privilege</a>" : <i>String</i>,
+        "<a href="#role" title="Role">Role</a>" : <i>String</i>,
     }
 }
 </pre>
@@ -21,15 +22,16 @@ To declare this entity in your AWS CloudFormation template, use the following sy
 ### YAML
 
 <pre>
-Type: Snowflake::Role::Grant
+Type: Snowflake::Warehouse::Grant
 Properties:
-    <a href="#rolename" title="RoleName">RoleName</a>: <i>String</i>
-    <a href="#user" title="User">User</a>: <i>String</i>
+    <a href="#warehousename" title="WarehouseName">WarehouseName</a>: <i>String</i>
+    <a href="#privilege" title="Privilege">Privilege</a>: <i>String</i>
+    <a href="#role" title="Role">Role</a>: <i>String</i>
 </pre>
 
 ## Properties
 
-#### RoleName
+#### WarehouseName
 
 _Required_: Yes
 
@@ -37,7 +39,15 @@ _Type_: String
 
 _Update requires_: [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)
 
-#### User
+#### Privilege
+
+_Required_: Yes
+
+_Type_: String
+
+_Update requires_: [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)
+
+#### Role
 
 _Required_: Yes
 
@@ -53,7 +63,7 @@ The `Fn::GetAtt` intrinsic function returns a value for a specified attribute of
 
 For more information about using the `Fn::GetAtt` intrinsic function, see [Fn::GetAtt](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-getatt.html).
 
-#### RoleGrant
+#### WarehouseGrant
 
-Returns the <code>RoleGrant</code> value.
+Returns the <code>WarehouseGrant</code> value.
 

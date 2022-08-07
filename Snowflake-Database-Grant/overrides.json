@@ -1,0 +1,12 @@
+{
+  "CREATE": {
+    "/DatabaseName": "TESTDB",
+    "/Privilege": "USAGE",
+    "/Role": "TESTROLE"
+  },
+  "UPDATE": {
+    "/DatabaseName": "TESTDB",
+    "/Privilege": "USAGE",
+    "/Role": "TESTROLE"
+  }
+}

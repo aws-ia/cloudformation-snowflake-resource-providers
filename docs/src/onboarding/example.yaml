@@ -1,0 +1,44 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: |
+  The following CloudFormation Snowflake resource types allow the creation and configuration of
+  a Database
+
+Resources:
+  NewDatabase:
+    Type: Snowflake::Database::Database
+    Properties:
+      Name: ExampleDatabase
+      DataRetentionTimeInDays: 1
+      MaxDataExtensionTimeInDays: 1
+      DefaultDdlCollation: "en-ci"
+      Comment: "This is a comment"
+
+  NewUser:
+    Type: Snowflake::User::User
+    Properties:
+      Name: ExampleUser
+      Password: 07l2S5vWjd0N
+      FirstName: Example
+      LastName: User
+
+  NewRole:
+    Type: Snowflake::Role::Role
+    Properties:
+      Name: ExampleRole
+      Comment: This is an example Role
+
+  NewRoleGrant:
+    Type: Snowflake::Role::Grant
+    Properties:
+      RoleName: !Ref NewRole
+      User: !Ref NewUser
+
+  NewDatabaseGrant:
+    Type: Snowflake::Database::Grant
+    Properties:
+      DatabaseName: !Ref NewDatabase
+      Privilege: USAGE
+      Role: !Ref NewRole
+

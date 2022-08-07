@@ -2,26 +2,27 @@ import {AbstractSnowflakeResource} from "../../Snowflake-Common/src/abstract-sno
 import {SnowflakeClient} from "../../Snowflake-Common/src/snowflake-client"
 
 import { ResourceModel, User, TypeConfigurationModel } from './models';
+import {NotFound} from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib/dist/exceptions";
 
 type ShownUser = {
-    NAME: string,
-    PASSWORD: string,
-    LOGIN_NAME: string,
-    DISPLAY_NAME: string,
-    FIRST_NAME: string,
-    MIDDLE_NAME: string,
-    LAST_NAME: string,
-    EMAIL: string,
-    MUST_CHANGE_PASSWORD: boolean,
-    DISABLED: boolean,
-    DAYS_TO_EXPIRY: bigint,
-    MINS_TO_UNLOCK: bigint,
-    DEFAULT_WAREHOUSE: string,
-    DEFAULT_ROLE: string,
-    MINS_TO_BYPASS_MFA: bigint,
-    RSA_PUBLIC_KEY: string,
-    RSA_PUBLIC_KEY_2: string,
-    COMMENT: string
+    name: string,
+    password: string,
+    login_name: string,
+    display_name: string,
+    first_name: string,
+    middle_name: string,
+    last_name: string,
+    email: string,
+    must_change_password: boolean,
+    disabled: boolean,
+    days_to_expiry: bigint,
+    mins_to_unlock: bigint,
+    default_warehouse: string,
+    default_role: string,
+    mins_to_bypass_mfa: bigint,
+    rsa_public_key: string,
+    rss_public_key_2: string,
+    comment: string
 }
 
 class Resource extends AbstractSnowflakeResource<ResourceModel, User, User, User, TypeConfigurationModel> {
@@ -30,6 +31,9 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, User, User, User
         let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
         let command = `SHOW USERS LIKE '${model.name}'`;
         let users = await client.doRequest(command, []);
+        if (users.length == 0) {
+            throw new NotFound("Database", model.name);
+        }
         let user = <ShownUser>users[0];
 
         return this.modelFromShownUser(user);
@@ -41,9 +45,9 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, User, User, User
 
         let users = await client.doRequest(command, []);
         let results: ResourceModel[]= [];
-
+        let self = this;
         users.forEach(function(row) {
-            results.push(this.modelFromShownUser(<ShownUser>row));
+            results.push(self.modelFromShownUser(<ShownUser>row));
         })
 
         return results;
@@ -130,7 +134,7 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, User, User, User
 
     async update(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel> {
         let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
-        let commands: string[] = [`UPDATE USER ${model.name} SET`];
+        let commands: string[] = [`ALTER USER ${model.name} SET`];
 
         if (model.password) {
             commands.push(`PASSWORD = '${model.password}'`);
@@ -201,7 +205,7 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, User, User, User
         }
 
         let command = commands.join(" ");
-
+        console.log("Running UPDATE Command: " + command);
         await client.doRequest(command, []);
 
         return model;
@@ -215,20 +219,20 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, User, User, User
 
     modelFromShownUser(shownUser: ShownUser): ResourceModel {
         return new ResourceModel(<ResourceModel> {
-            name: shownUser.NAME,
-            password: shownUser.PASSWORD,
-            loginName: shownUser.LOGIN_NAME,
-            displayName: shownUser.DISPLAY_NAME,
-            firstName: shownUser.FIRST_NAME,
-            middleName: shownUser.MIDDLE_NAME,
-            lastName: shownUser.LAST_NAME,
-            email: shownUser.EMAIL,
-            mustChangePassword: shownUser.MUST_CHANGE_PASSWORD,
-            disabled: shownUser.DISABLED,
-            daysToExpiry: shownUser.DAYS_TO_EXPIRY,
-            minsToUnlock: shownUser.MINS_TO_UNLOCK,
-            rsaPublicKey: shownUser.RSA_PUBLIC_KEY,
-            rsaPublicKey2: shownUser.RSA_PUBLIC_KEY_2
+            name: shownUser.name,
+            password: shownUser.password,
+            loginName: shownUser.login_name,
+            displayName: shownUser.display_name,
+            firstName: shownUser.first_name,
+            middleName: shownUser.middle_name,
+            lastName: shownUser.last_name,
+            email: shownUser.email,
+            mustChangePassword: shownUser.must_change_password,
+            disabled: shownUser.disabled,
+            daysToExpiry: shownUser.days_to_expiry,
+            minsToUnlock: shownUser.mins_to_unlock,
+            rsaPublicKey: shownUser.rsa_public_key,
+            rsaPublicKey2: shownUser.rss_public_key_2
         });
     }
 
@@ -241,7 +245,7 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, User, User, User
     }
 }
 
-export const resource = new Resource(ResourceModel.TYPE_NAME, ResourceModel);
+export const resource = new Resource(ResourceModel.TYPE_NAME, ResourceModel, null, null, TypeConfigurationModel);
 
 // Entrypoint for production usage after registered in CloudFormation
 export const entrypoint = resource.entrypoint;
