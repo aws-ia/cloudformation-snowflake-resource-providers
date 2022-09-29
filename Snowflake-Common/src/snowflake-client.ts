@@ -4,11 +4,13 @@ export class SnowflakeClient {
     private readonly account: string;
     private readonly username: string;
     private readonly password: string;
+    private readonly application: string;
 
-    constructor(account: string, username: string, password: string) {
+    constructor(account: string, username: string, password: string, application: string) {
         this.account = account;
         this.username = username;
         this.password = password;
+        this.application = application;
     }
 
     public async doRequest(sqlCommand: string, binds: any[]): Promise<any[]> {
@@ -16,7 +18,8 @@ export class SnowflakeClient {
             let connection = snowflake.createConnection({
                 account: this.account,
                 username: this.username,
-                password: this.password
+                password: this.password,
+                application: this.application
             });
             connection.connect(
                 function (err, conn) {

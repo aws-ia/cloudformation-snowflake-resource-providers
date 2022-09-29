@@ -1,50 +1,37 @@
 {
     "typeName": "Snowflake::Database::Database",
-    "description": "An example resource schema demonstrating some basic constructs and validation rules.",
+    "description": "Allows for the creation and modification of a Snowflake Database. https://docs.snowflake.com/en/user-guide/databases.html",
     "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
     "typeConfiguration": {
         "properties": {
-            "Account": {
-                "type": "string"
-            },
-            "Username": {
-                "type": "string"
-            },
-            "Password": {
-                "type": "string"
+            "SnowflakeAccess": {
+                "$ref": "#/definitions/SnowflakeAccess"
             }
         },
+        "additionalProperties": false,
         "required": [
-            "Account",
-            "Username"
-        ],
-        "additionalProperties": false
+            "SnowflakeAccess"
+        ]
     },
     "definitions": {
-        "Database": {
+        "SnowflakeAccess": {
             "type": "object",
             "properties": {
-                "Name": {
-                    "type": "string",
-                    "description": "Specifies the identifier for the database; must be unique for your account."
+                "Account": {
+                    "type": "string"
                 },
-                "DataRetentionTimeInDays": {
-                    "type": "integer",
-                    "description": "Specifies the number of days for which Time Travel actions can be performed on the database."
+                "Username": {
+                    "type": "string"
                 },
-                "MaxDataExtensionTimeInDays": {
-                    "type": "integer",
-                    "description": "The maximum number of days for which Snowflake can extend the data retention period for tables in the database."
-                },
-                "DefaultDdlCollation": {
-                    "type": "string",
-                    "description": "Specifies a default collation specification for all schemas and tables added to the database"
-                },
-                "Comment": {
-                    "type": "string",
-                    "description": "Specifies a comment for the database."
+                "Password": {
+                    "type": "string"
                 }
             },
+            "required": [
+                "Account",
+                "Username",
+                "Password"
+            ],
             "additionalProperties": false
         }
     },
@@ -68,9 +55,6 @@
         "Comment": {
             "type": "string",
             "description": "Specifies a comment for the database."
-        },
-        "Database": {
-            "$ref": "#/definitions/Database"
         }
     },
     "additionalProperties": false,

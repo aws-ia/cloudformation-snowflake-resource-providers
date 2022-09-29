@@ -56,9 +56,6 @@ export class ResourceModel extends BaseModel {
         }
     )
     comment?: Optional<string>;
-    @Expose({ name: 'Database' })
-    @Type(() => Database)
-    database?: Optional<Database>;
 
     @Exclude()
     public getPrimaryIdentifier(): Dict {
@@ -79,60 +76,18 @@ export class ResourceModel extends BaseModel {
     }
 }
 
-export class Database extends BaseModel {
-    ['constructor']: typeof Database;
+export class TypeConfigurationModel extends BaseModel {
+    ['constructor']: typeof TypeConfigurationModel;
 
 
-    @Expose({ name: 'Name' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(String, 'name', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    name?: Optional<string>;
-    @Expose({ name: 'DataRetentionTimeInDays' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(Integer, 'dataRetentionTimeInDays', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    dataRetentionTimeInDays?: Optional<integer>;
-    @Expose({ name: 'MaxDataExtensionTimeInDays' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(Integer, 'maxDataExtensionTimeInDays', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    maxDataExtensionTimeInDays?: Optional<integer>;
-    @Expose({ name: 'DefaultDdlCollation' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(String, 'defaultDdlCollation', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    defaultDdlCollation?: Optional<string>;
-    @Expose({ name: 'Comment' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(String, 'comment', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    comment?: Optional<string>;
+    @Expose({ name: 'SnowflakeAccess' })
+    @Type(() => SnowflakeAccess)
+    snowflakeAccess?: Optional<SnowflakeAccess>;
 
 }
 
-export class TypeConfigurationModel extends BaseModel {
-    ['constructor']: typeof TypeConfigurationModel;
+export class SnowflakeAccess extends BaseModel {
+    ['constructor']: typeof SnowflakeAccess;
 
 
     @Expose({ name: 'Account' })

@@ -2,11 +2,12 @@
     "compilerOptions": {
         "target": "ES2017",
         "module": "commonjs",
-        "noImplicitAny": false,
+        "noImplicitAny": true,
         "alwaysStrict": true,
         "esModuleInterop": true,
         "moduleResolution": "node",
         "allowJs": true,
+        "resolveJsonModule": true,
         "experimentalDecorators": true,
         "outDir": "dist"
     },
