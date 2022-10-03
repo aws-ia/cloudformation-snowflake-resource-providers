@@ -2,7 +2,7 @@
     "artifact_type": "RESOURCE",
     "typeName": "Snowflake::Role::Grant",
     "language": "typescript",
-    "runtime": "nodejs12.x",
+    "runtime": "nodejs14.x",
     "entrypoint": "dist/Snowflake-Role-Grant/src/handlers.entrypoint",
     "testEntrypoint": "dist/Snowflake-Role-Grant/src/handlers.testEntrypoint",
     "settings": {

@@ -1,36 +1,37 @@
 {
     "typeName": "Snowflake::Role::Grant",
-    "description": "An example resource schema demonstrating some basic constructs and validation rules.",
+    "description": "Allows privileges to be granted on a role to a user. https://docs.snowflake.com/en/sql-reference/sql/grant-privilege.html",
     "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
     "typeConfiguration": {
         "properties": {
-            "Account": {
-                "type": "string"
-            },
-            "Username": {
-                "type": "string"
-            },
-            "Password": {
-                "type": "string"
+            "SnowflakeAccess": {
+                "$ref": "#/definitions/SnowflakeAccess"
             }
         },
+        "additionalProperties": false,
         "required": [
-            "Account",
-            "Username"
-        ],
-        "additionalProperties": false
+            "SnowflakeAccess"
+        ]
     },
     "definitions": {
-        "RoleGrant": {
+        "SnowflakeAccess": {
             "type": "object",
             "properties": {
-                "RoleName": {
+                "Account": {
                     "type": "string"
                 },
-                "User": {
+                "Username": {
+                    "type": "string"
+                },
+                "Password": {
                     "type": "string"
                 }
             },
+            "required": [
+                "Account",
+                "Username",
+                "Password"
+            ],
             "additionalProperties": false
         }
     },
@@ -40,9 +41,6 @@
         },
         "User": {
             "type": "string"
-        },
-        "RoleGrant": {
-            "$ref": "#/definitions/RoleGrant"
         }
     },
     "additionalProperties": false,
@@ -58,17 +56,11 @@
         "/properties/RoleName",
         "/properties/User"
     ],
-    "readOnlyProperties": [
-        "/properties/RoleGrant"
-    ],
     "handlers": {
         "create": {
             "permissions": []
         },
         "read": {
-            "permissions": []
-        },
-        "update": {
             "permissions": []
         },
         "delete": {
