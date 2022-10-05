@@ -1,8 +1,12 @@
 import {AbstractSnowflakeResource} from "../../Snowflake-Common/src/abstract-snowflake-resource"
 import {SnowflakeClient} from "../../Snowflake-Common/src/snowflake-client"
-
-import { ResourceModel, WarehouseGrant, TypeConfigurationModel } from './models';
-import {NotFound} from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib/dist/exceptions";
+import {Transformer, CaseTransformer} from "../../Snowflake-Common/src/util"
+import { ResourceModel, TypeConfigurationModel } from './models';
+import {
+    NotFound,
+    NotUpdatable
+} from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib/dist/exceptions";
+import {version} from '../package.json';
 
 type ShownGrant = {
     granted_on: string,
@@ -11,7 +15,12 @@ type ShownGrant = {
     privilege: string
 }
 
-class Resource extends AbstractSnowflakeResource<ResourceModel, WarehouseGrant, WarehouseGrant, WarehouseGrant, TypeConfigurationModel> {
+class Resource extends AbstractSnowflakeResource<ResourceModel, ResourceModel, ResourceModel, ResourceModel, TypeConfigurationModel> {
+
+    // UserAgent (connection 'application') is limited to 50 characters, and can only contain alpha-numeric characters, and ., -, and _
+    private userAgent = `${this.typeName}/${version}`
+        .replace(/[^A-Za-z0-9.\-_]/g, "-")
+        .substring(0, 50);
 
     async get(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel> {
         let allGrants = await this.list(model, typeConfiguration);
@@ -27,8 +36,8 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, WarehouseGrant, 
     }
 
     async list(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel[]> {
-        let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
-        let command = 'SHOW GRANTS ON ' + model.warehouseName;
+        let client = new SnowflakeClient(typeConfiguration.snowflakeAccess.account, typeConfiguration.snowflakeAccess.username, typeConfiguration.snowflakeAccess.password, this.userAgent);
+        let command = `SHOW GRANTS ON WAREHOUSE ${model.warehouseName}`;
 
         let grants = await client.doRequest(command, []);
         let results: ResourceModel[]= [];
@@ -36,7 +45,7 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, WarehouseGrant, 
         grants
             .filter(row => {
                 let grant = <ShownGrant>row;
-                return grant.granted_on.toUpperCase() === "role";
+                return grant.granted_to.toLowerCase() === "role";
             })
             .forEach(function(row) {
                 let grant = <ShownGrant>row;
@@ -51,24 +60,22 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, WarehouseGrant, 
     }
 
     async create(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel> {
-        let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
+        let client = new SnowflakeClient(typeConfiguration.snowflakeAccess.account, typeConfiguration.snowflakeAccess.username, typeConfiguration.snowflakeAccess.password, this.userAgent);
         let command =
             `GRANT ${model.privilege}
              ON WAREHOUSE ${model.warehouseName}
              TO ROLE ${model.role}`;
-
         await client.doRequest(command, []);
 
         return model;
     }
 
     async update(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<ResourceModel> {
-        // Resource is not updatable
-        return model;
+        throw new NotUpdatable()
     }
 
     async delete(model: ResourceModel, typeConfiguration: TypeConfigurationModel): Promise<void> {
-        let client = new SnowflakeClient(typeConfiguration.account, typeConfiguration.username, typeConfiguration.password);
+        let client = new SnowflakeClient(typeConfiguration.snowflakeAccess.account, typeConfiguration.snowflakeAccess.username, typeConfiguration.snowflakeAccess.password, this.userAgent);
         let command =
             `REVOKE ${model.privilege}
              ON WAREHOUSE ${model.warehouseName}
@@ -81,8 +88,18 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, WarehouseGrant, 
         return new ResourceModel(partial);
     }
 
-    setModelFrom(model: ResourceModel, from: WarehouseGrant | undefined): ResourceModel {
-        return model;
+    setModelFrom(model: ResourceModel, from: ResourceModel | undefined): ResourceModel {
+        if (!from) {
+            return model;
+        }
+
+        return new ResourceModel({
+            ...model,
+            ...Transformer.for(from)
+                .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
+                .forModelIngestion()
+                .transform(),
+        });        return model;
     }
 }
 

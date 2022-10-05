@@ -1,39 +1,37 @@
 {
     "typeName": "Snowflake::Warehouse::Grant",
-    "description": "An example resource schema demonstrating some basic constructs and validation rules.",
+    "description": "Allows privileges to be granted on a warehouse to a role. https://docs.snowflake.com/en/sql-reference/sql/grant-privilege.html",
     "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
     "typeConfiguration": {
         "properties": {
-            "Account": {
-                "type": "string"
-            },
-            "Username": {
-                "type": "string"
-            },
-            "Password": {
-                "type": "string"
+            "SnowflakeAccess": {
+                "$ref": "#/definitions/SnowflakeAccess"
             }
         },
+        "additionalProperties": false,
         "required": [
-            "Account",
-            "Username"
-        ],
-        "additionalProperties": false
+            "SnowflakeAccess"
+        ]
     },
     "definitions": {
-        "WarehouseGrant": {
+        "SnowflakeAccess": {
             "type": "object",
             "properties": {
-                "WarehouseName": {
+                "Account": {
                     "type": "string"
                 },
-                "Privilege": {
+                "Username": {
                     "type": "string"
                 },
-                "Role": {
+                "Password": {
                     "type": "string"
                 }
             },
+            "required": [
+                "Account",
+                "Username",
+                "Password"
+            ],
             "additionalProperties": false
         }
     },
@@ -46,9 +44,6 @@
         },
         "Role": {
             "type": "string"
-        },
-        "WarehouseGrant": {
-            "$ref": "#/definitions/WarehouseGrant"
         }
     },
     "additionalProperties": false,
@@ -67,17 +62,11 @@
         "/properties/Privilege",
         "/properties/Role"
     ],
-    "readOnlyProperties": [
-        "/properties/WarehouseGrant"
-    ],
     "handlers": {
         "create": {
             "permissions": []
         },
         "read": {
-            "permissions": []
-        },
-        "update": {
             "permissions": []
         },
         "delete": {

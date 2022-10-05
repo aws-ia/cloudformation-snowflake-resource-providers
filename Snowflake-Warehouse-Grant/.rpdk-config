@@ -2,7 +2,7 @@
     "artifact_type": "RESOURCE",
     "typeName": "Snowflake::Warehouse::Grant",
     "language": "typescript",
-    "runtime": "nodejs12.x",
+    "runtime": "nodejs14.x",
     "entrypoint": "dist/Snowflake-Warehouse-Grant/src/handlers.entrypoint",
     "testEntrypoint": "dist/Snowflake-Warehouse-Grant/src/handlers.testEntrypoint",
     "settings": {
