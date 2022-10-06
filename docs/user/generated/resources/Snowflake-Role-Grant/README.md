@@ -1,6 +1,6 @@
 # Snowflake::Role::Grant
 
-An example resource schema demonstrating some basic constructs and validation rules.
+Allows privileges to be granted on a role to a user. https://docs.snowflake.com/en/sql-reference/sql/grant-privilege.html
 
 ## Syntax
 
@@ -13,7 +13,7 @@ To declare this entity in your AWS CloudFormation template, use the following sy
     "Type" : "Snowflake::Role::Grant",
     "Properties" : {
         "<a href="#rolename" title="RoleName">RoleName</a>" : <i>String</i>,
-        "<a href="#user" title="User">User</a>" : <i>String</i>,
+        "<a href="#user" title="User">User</a>" : <i>String</i>
     }
 }
 </pre>
@@ -44,16 +44,4 @@ _Required_: Yes
 _Type_: String
 
 _Update requires_: [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)
-
-## Return Values
-
-### Fn::GetAtt
-
-The `Fn::GetAtt` intrinsic function returns a value for a specified attribute of this type. The following are the available attributes and sample return values.
-
-For more information about using the `Fn::GetAtt` intrinsic function, see [Fn::GetAtt](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-getatt.html).
-
-#### RoleGrant
-
-Returns the <code>RoleGrant</code> value.
 

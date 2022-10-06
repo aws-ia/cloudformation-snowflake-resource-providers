@@ -1,6 +1,6 @@
 # Snowflake::Database::Database
 
-An example resource schema demonstrating some basic constructs and validation rules.
+Allows for the creation and modification of a Snowflake Database. https://docs.snowflake.com/en/user-guide/databases.html
 
 ## Syntax
 
@@ -16,7 +16,7 @@ To declare this entity in your AWS CloudFormation template, use the following sy
         "<a href="#dataretentiontimeindays" title="DataRetentionTimeInDays">DataRetentionTimeInDays</a>" : <i>Integer</i>,
         "<a href="#maxdataextensiontimeindays" title="MaxDataExtensionTimeInDays">MaxDataExtensionTimeInDays</a>" : <i>Integer</i>,
         "<a href="#defaultddlcollation" title="DefaultDdlCollation">DefaultDdlCollation</a>" : <i>String</i>,
-        "<a href="#comment" title="Comment">Comment</a>" : <i>String</i>,
+        "<a href="#comment" title="Comment">Comment</a>" : <i>String</i>
     }
 }
 </pre>

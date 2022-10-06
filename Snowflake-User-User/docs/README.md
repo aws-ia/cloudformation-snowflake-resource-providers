@@ -1,6 +1,6 @@
 # Snowflake::User::User
 
-An example resource schema demonstrating some basic constructs and validation rules.
+Allows for the creation and modification of a Snowflake User. https://docs.snowflake.com/en/user-guide/admin-user-management.html
 
 ## Syntax
 
