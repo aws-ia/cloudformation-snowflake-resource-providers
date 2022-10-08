@@ -1,0 +1,10 @@
+{
+  "CREATE": {
+    "/RoleName": "USERTESTROLE",
+    "/User": "TESTUSER"
+  },
+  "UPDATE": {
+    "/RoleName": "USERTESTROLE",
+    "/User": "TESTUSER"
+  }
+}

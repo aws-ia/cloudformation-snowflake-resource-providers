@@ -1,0 +1,79 @@
+{
+    "typeName": "Snowflake::Role::Role",
+    "description": "An example resource schema demonstrating some basic constructs and validation rules.",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
+    "typeConfiguration": {
+        "properties": {
+            "Account": {
+                "type": "string"
+            },
+            "Username": {
+                "type": "string"
+            },
+            "Password": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "Account",
+            "Username"
+        ],
+        "additionalProperties": false
+    },
+    "definitions": {
+        "Role": {
+            "type": "object",
+            "properties": {
+                "Name": {
+                    "type": "string",
+                    "description": "Specifies the identifier for the role; must be unique for your account."
+                },
+                "Comment": {
+                    "type": "string",
+                    "description": "Specifies a comment for the role."
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "properties": {
+        "Name": {
+            "type": "string",
+            "description": "Specifies the identifier for the role; must be unique for your account."
+        },
+        "Comment": {
+            "type": "string",
+            "description": "Specifies a comment for the role."
+        },
+        "Role": {
+            "$ref": "#/definitions/Role"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "Name"
+    ],
+    "readOnlyProperties": [
+        "/properties/Role"
+    ],
+    "primaryIdentifier": [
+        "/properties/Name"
+    ],
+    "handlers": {
+        "create": {
+            "permissions": []
+        },
+        "read": {
+            "permissions": []
+        },
+        "update": {
+            "permissions": []
+        },
+        "delete": {
+            "permissions": []
+        },
+        "list": {
+            "permissions": []
+        }
+    }
+}

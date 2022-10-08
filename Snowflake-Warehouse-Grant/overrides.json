@@ -1,0 +1,12 @@
+{
+  "CREATE": {
+    "/WarehouseName": "COMPUTE_WH",
+    "/Privilege": "USAGE",
+    "/Role": "TESTROLE"
+  },
+  "UPDATE": {
+    "/WarehouseName": "COMPUTE_WH",
+    "/Privilege": "USAGE",
+    "/Role": "TESTROLE"
+  }
+}

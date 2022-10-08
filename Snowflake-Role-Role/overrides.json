@@ -1,0 +1,10 @@
+{
+  "CREATE": {
+    "/Name": "SAMROLE",
+    "/Comment": "My SAM Role"
+  },
+  "UPDATE": {
+    "/Name": "UPDATEDSAMROLE",
+    "/Comment": "Updated SAM Role"
+  }
+}

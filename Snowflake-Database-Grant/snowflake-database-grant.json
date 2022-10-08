@@ -1,0 +1,79 @@
+{
+    "typeName": "Snowflake::Database::Grant",
+    "description": "Allows privileges to be granted on a database to a role. https://docs.snowflake.com/en/sql-reference/sql/grant-privilege.html",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
+    "typeConfiguration": {
+        "properties": {
+            "SnowflakeAccess": {
+                "$ref": "#/definitions/SnowflakeAccess"
+            }
+        },
+        "additionalProperties": false,
+        "required": [
+            "SnowflakeAccess"
+        ]
+    },
+    "definitions": {
+        "SnowflakeAccess": {
+            "type": "object",
+            "properties": {
+                "Account": {
+                    "type": "string"
+                },
+                "Username": {
+                    "type": "string"
+                },
+                "Password": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "Account",
+                "Username",
+                "Password"
+            ],
+            "additionalProperties": false
+        }
+    },
+    "properties": {
+        "DatabaseName": {
+            "type": "string"
+        },
+        "Privilege": {
+            "type": "string"
+        },
+        "Role": {
+            "type": "string"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "DatabaseName",
+        "Privilege",
+        "Role"
+    ],
+    "createOnlyProperties": [
+        "/properties/DatabaseName",
+        "/properties/Privilege",
+        "/properties/Role"
+    ],
+    "primaryIdentifier": [
+        "/properties/DatabaseName",
+        "/properties/Privilege",
+        "/properties/Role"
+    ],
+    "handlers": {
+        "create": {
+            "permissions": []
+        },
+        "read": {
+            "permissions": []
+        },
+        "delete": {
+            "permissions": []
+        },
+        "list": {
+            "permissions": []
+        }
+    }
+}

@@ -1,0 +1,7 @@
+{
+  "CREATE": {
+    "/DatabaseName": "TESTDB",
+    "/Privilege": "USAGE",
+    "/Role": "TESTROLE"
+  }
+}

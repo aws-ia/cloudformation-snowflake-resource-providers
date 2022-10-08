@@ -1,0 +1,73 @@
+{
+    "typeName": "Snowflake::Role::Grant",
+    "description": "Allows privileges to be granted on a role to a user. https://docs.snowflake.com/en/sql-reference/sql/grant-privilege.html",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
+    "typeConfiguration": {
+        "properties": {
+            "SnowflakeAccess": {
+                "$ref": "#/definitions/SnowflakeAccess"
+            }
+        },
+        "additionalProperties": false,
+        "required": [
+            "SnowflakeAccess"
+        ]
+    },
+    "definitions": {
+        "SnowflakeAccess": {
+            "type": "object",
+            "properties": {
+                "Account": {
+                    "type": "string"
+                },
+                "Username": {
+                    "type": "string"
+                },
+                "Password": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "Account",
+                "Username",
+                "Password"
+            ],
+            "additionalProperties": false
+        }
+    },
+    "properties": {
+        "RoleName": {
+            "type": "string"
+        },
+        "User": {
+            "type": "string"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "RoleName",
+        "User"
+    ],
+    "createOnlyProperties": [
+        "/properties/RoleName",
+        "/properties/User"
+    ],
+    "primaryIdentifier": [
+        "/properties/RoleName",
+        "/properties/User"
+    ],
+    "handlers": {
+        "create": {
+            "permissions": []
+        },
+        "read": {
+            "permissions": []
+        },
+        "delete": {
+            "permissions": []
+        },
+        "list": {
+            "permissions": []
+        }
+    }
+}

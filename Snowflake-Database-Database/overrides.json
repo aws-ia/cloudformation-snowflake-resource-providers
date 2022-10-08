@@ -1,0 +1,16 @@
+{
+  "CREATE": {
+    "/Name": "SAMDATABASE",
+    "/DataRetentionTimeInDays": 1,
+    "/MaxDataExtensionTimeInDays": 2,
+    "/DefaultDdlCollation": "en-ci",
+    "/Comment": "This is a comment"
+  },
+  "UPDATE": {
+    "/Name": "UPDATEDSAMDB",
+    "/DataRetentionTimeInDays": 1,
+    "/MaxDataExtensionTimeInDays": 4,
+    "/DefaultDdlCollation": "fr-ai",
+    "/Comment": "Updated comment"
+  }
+}
