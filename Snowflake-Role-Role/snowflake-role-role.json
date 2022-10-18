@@ -1,38 +1,37 @@
 {
     "typeName": "Snowflake::Role::Role",
-    "description": "An example resource schema demonstrating some basic constructs and validation rules.",
+    "description": "Allows for the creation and modification of a Snowflake Role. https://docs.snowflake.com/en/user-guide/security-access-control-overview.html#roles",
     "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
     "typeConfiguration": {
         "properties": {
-            "Account": {
-                "type": "string"
-            },
-            "Username": {
-                "type": "string"
-            },
-            "Password": {
-                "type": "string"
+            "SnowflakeAccess": {
+                "$ref": "#/definitions/SnowflakeAccess"
             }
         },
+        "additionalProperties": false,
         "required": [
-            "Account",
-            "Username"
-        ],
-        "additionalProperties": false
+            "SnowflakeAccess"
+        ]
     },
     "definitions": {
-        "Role": {
+        "SnowflakeAccess": {
             "type": "object",
             "properties": {
-                "Name": {
-                    "type": "string",
-                    "description": "Specifies the identifier for the role; must be unique for your account."
+                "Account": {
+                    "type": "string"
                 },
-                "Comment": {
-                    "type": "string",
-                    "description": "Specifies a comment for the role."
+                "Username": {
+                    "type": "string"
+                },
+                "Password": {
+                    "type": "string"
                 }
             },
+            "required": [
+                "Account",
+                "Username",
+                "Password"
+            ],
             "additionalProperties": false
         }
     },
@@ -44,19 +43,16 @@
         "Comment": {
             "type": "string",
             "description": "Specifies a comment for the role."
-        },
-        "Role": {
-            "$ref": "#/definitions/Role"
         }
     },
     "additionalProperties": false,
     "required": [
         "Name"
     ],
-    "readOnlyProperties": [
-        "/properties/Role"
+    "createOnlyProperties": [
+        "/properties/Name"
     ],
-    "primaryIdentifier": [
+     "primaryIdentifier": [
         "/properties/Name"
     ],
     "handlers": {

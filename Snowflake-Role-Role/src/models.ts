@@ -29,9 +29,6 @@ export class ResourceModel extends BaseModel {
         }
     )
     comment?: Optional<string>;
-    @Expose({ name: 'Role' })
-    @Type(() => Role)
-    role?: Optional<Role>;
 
     @Exclude()
     public getPrimaryIdentifier(): Dict {
@@ -52,33 +49,18 @@ export class ResourceModel extends BaseModel {
     }
 }
 
-export class Role extends BaseModel {
-    ['constructor']: typeof Role;
+export class TypeConfigurationModel extends BaseModel {
+    ['constructor']: typeof TypeConfigurationModel;
 
 
-    @Expose({ name: 'Name' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(String, 'name', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    name?: Optional<string>;
-    @Expose({ name: 'Comment' })
-    @Transform(
-        (value: any, obj: any) =>
-            transformValue(String, 'comment', value, obj, []),
-        {
-            toClassOnly: true,
-        }
-    )
-    comment?: Optional<string>;
+    @Expose({ name: 'SnowflakeAccess' })
+    @Type(() => SnowflakeAccess)
+    snowflakeAccess?: Optional<SnowflakeAccess>;
 
 }
 
-export class TypeConfigurationModel extends BaseModel {
-    ['constructor']: typeof TypeConfigurationModel;
+export class SnowflakeAccess extends BaseModel {
+    ['constructor']: typeof SnowflakeAccess;
 
 
     @Expose({ name: 'Account' })
