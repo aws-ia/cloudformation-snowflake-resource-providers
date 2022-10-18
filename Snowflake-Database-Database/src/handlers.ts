@@ -102,15 +102,20 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, SnowflakeDatabas
             return model;
         }
 
-        return new ResourceModel({
+        let result = new ResourceModel({
             ...model,
             ...Transformer.for(from)
                 .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
                 .forModelIngestion()
                 .transform(),
-            comment: from.comment,
-            dataRetentionTimeInDays: Number(from.retention_time)
+            comment: from.comment
         });
+
+        // The following are write-only and should not be returned
+        delete result.maxDataExtensionTimeInDays
+        delete result.defaultDdlCollation
+
+        return result
     }
 }
 
