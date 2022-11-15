@@ -4,6 +4,7 @@ import {SnowflakeClient} from "../../Snowflake-Common/src/snowflake-client"
 import {NotFound}  from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib/dist/exceptions"
 import { ResourceModel, TypeConfigurationModel } from './models';
 import {version} from '../package.json';
+import { plainToClass, classToPlain } from 'class-transformer'
 
 type SnowflakeDatabase = {
     name: string,
@@ -108,14 +109,17 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, SnowflakeDatabas
                 .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
                 .forModelIngestion()
                 .transform(),
-            comment: from.comment
+            comment: from.comment,
+            dataRetentionTimeInDays: from.retention_time
         });
 
         // The following are write-only and should not be returned
         delete result.maxDataExtensionTimeInDays
         delete result.defaultDdlCollation
 
-        return result
+        let plainObj = classToPlain(result);
+
+        return plainToClass(ResourceModel, plainObj, { excludeExtraneousValues: true });
     }
 }
 
