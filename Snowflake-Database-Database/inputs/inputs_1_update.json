@@ -1,0 +1,6 @@
+{
+    "Name": "ExampleName",
+    "DataRetentionTimeInDays": 90,
+    "MaxDataExtensionTimeInDays": 10,
+    "DefaultDdlCollation": "en-ci"
+}
