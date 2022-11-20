@@ -1,0 +1,20 @@
+{
+    "Name": "SAMCREATEDUSER",
+    "Password": "hunter2ThisisLong",
+    "LoginName": "SamLoginName",
+    "DisplayName": "SAM DISPLAY NAME",
+    "FirstName": "SAM First Name",
+    "MiddleName": "SAM Middle Name",
+    "LastName": "SAM Last Name",
+    "Email": "samuser@example.com",
+    "MustChangePassword": false,
+    "Disabled": false,
+    "DaysToExpiry": 99,
+    "MinsToUnlock": 0,
+    "DefaultWarehouse": "COMPUTE_WH",
+    "DefaultRole": "NOROLE",
+    "MinsToBypassMfa": 0,
+    "RsaPublicKey": "",
+    "RsaPublicKey2": "",
+    "Comment": "SAM Comment"
+  }
