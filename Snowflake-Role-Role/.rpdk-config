@@ -17,5 +17,12 @@
         "target_schemas": [],
         "useDocker": false,
         "protocolVersion": "2.0.0"
+    },
+    "contractSettings":{
+        "typeConfiguration": {
+            "configuration": {
+                "SnowflakeAccess": { "Account": "{{resolve:ssm-secure:/cfn/snowflake/account:1}}", "Username": "{{resolve:ssm-secure:/cfn/snowflake/username:1}}", "Password": "{{resolve:ssm-secure:/cfn/snowflake/password:1}}" }
+            }
+        }
     }
 }
