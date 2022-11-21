@@ -7,6 +7,7 @@ import {
     NotUpdatable
 } from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib/dist/exceptions";
 import {version} from '../package.json';
+import {plainToClass, classToPlain, plainToClassFromExist} from "class-transformer";
 
 type ShownGrant = {
     granted_on: string,
@@ -93,13 +94,17 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, ResourceModel, R
             return model;
         }
 
-        return new ResourceModel({
+        const result = new ResourceModel({
             ...model,
             ...Transformer.for(from)
                 .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
                 .forModelIngestion()
                 .transform(),
-        });        return model;
+        });
+
+        return plainToClass(ResourceModel,
+            classToPlain(result),
+            { excludeExtraneousValues: true });
     }
 }
 
