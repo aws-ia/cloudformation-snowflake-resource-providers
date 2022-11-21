@@ -119,8 +119,14 @@
     "createOnlyProperties": [
         "/properties/Name"
     ],
-    "readOnlyProperties": [
-        "/properties/User"
+    "writeOnlyProperties": [
+       "/properties/Password",
+       "/properties/DaysToExpiry",
+       "/properties/MiddleName",
+       "/properties/MinsToUnlock",
+       "/properties/MinsToBypassMfa",
+       "/properties/RsaPublicKey",
+       "/properties/RsaPublicKey2"
     ],
     "primaryIdentifier": [
         "/properties/Name"

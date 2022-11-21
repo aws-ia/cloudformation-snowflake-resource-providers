@@ -1,9 +1,10 @@
 import {AbstractSnowflakeResource} from "../../Snowflake-Common/src/abstract-snowflake-resource"
+import {Transformer, CaseTransformer} from "../../Snowflake-Common/src/util"
 import {SnowflakeClient} from "../../Snowflake-Common/src/snowflake-client"
-
 import { ResourceModel, TypeConfigurationModel } from './models';
 import {NotFound} from "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib/dist/exceptions";
 import {version} from '../package.json';
+import {plainToClass, classToPlain, plainToClassFromExist} from "class-transformer";
 
 type SnowflakeUser = {
     name: string,
@@ -37,6 +38,7 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, ResourceModel, R
         let client = new SnowflakeClient(typeConfiguration.snowflakeAccess.account, typeConfiguration.snowflakeAccess.username, typeConfiguration.snowflakeAccess.password, this.userAgent);
         let command = `SHOW USERS LIKE '${model.name}'`;
         let users = await client.doRequest(command, []);
+
         if (users.length == 0) {
             throw new NotFound("Database", model.name);
         }
@@ -172,6 +174,9 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, ResourceModel, R
             email: shownUser.email,
             mustChangePassword: shownUser.must_change_password,
             disabled: shownUser.disabled,
+	    defaultWarehouse: shownUser.default_warehouse,
+	    comment: shownUser.comment,
+	    defaultRole: shownUser.default_role,
             daysToExpiry: shownUser.days_to_expiry,
             minsToUnlock: shownUser.mins_to_unlock,
             rsaPublicKey: shownUser.rsa_public_key,
@@ -184,7 +189,30 @@ class Resource extends AbstractSnowflakeResource<ResourceModel, ResourceModel, R
     }
 
     setModelFrom(model: ResourceModel, from: ResourceModel | undefined): ResourceModel {
-        return model;
+        if (!from) {
+          return model;
+	}
+
+        let result = new ResourceModel({
+            ...model,
+            ...Transformer.for(from)
+                .transformKeys(CaseTransformer.SNAKE_TO_CAMEL)
+                .forModelIngestion()
+                .transform()
+        });
+
+	// Delete the writeOnly properties
+	delete result.password;
+	delete result.middleName;
+	delete result.daysToExpiry;
+	delete result.minsToUnlock;
+	delete result.minsToBypassMfa;
+	delete result.rsaPublicKey;
+	delete result.rsaPublicKey2;
+
+	return plainToClass(ResourceModel,
+            classToPlain(result),
+            { excludeExtraneousValues: true });
     }
 }
 
