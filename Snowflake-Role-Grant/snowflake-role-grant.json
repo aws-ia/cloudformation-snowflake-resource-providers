@@ -1,7 +1,8 @@
 {
     "typeName": "Snowflake::Role::Grant",
     "description": "Allows privileges to be granted on a role to a user. https://docs.snowflake.com/en/sql-reference/sql/grant-privilege.html",
-    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
+    "sourceUrl": "https://github.com/aws-ia/cloudformation-snowflake-resource-providers.git",
+    "documentationUrl": "https://github.com/aws-ia/cloudformation-snowflake-resource-providers",
     "typeConfiguration": {
         "properties": {
             "SnowflakeAccess": {

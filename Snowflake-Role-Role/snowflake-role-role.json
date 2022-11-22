@@ -1,7 +1,8 @@
 {
     "typeName": "Snowflake::Role::Role",
     "description": "Allows for the creation and modification of a Snowflake Role. https://docs.snowflake.com/en/user-guide/security-access-control-overview.html#roles",
-    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
+    "sourceUrl": "https://github.com/aws-ia/cloudformation-snowflake-resource-providers.git",
+    "documentationUrl": "https://github.com/aws-ia/cloudformation-snowflake-resource-providers",
     "typeConfiguration": {
         "properties": {
             "SnowflakeAccess": {
