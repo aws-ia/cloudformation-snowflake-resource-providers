@@ -15,7 +15,7 @@
     "dependencies": {
         "@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib": "^1.0.3",
         "class-transformer": "0.3.1",
-        "snowflake-sdk": "^1.6.11"
+        "snowflake-sdk": "^1.6.18"
     },
     "devDependencies": {
         "jest": "^27.5.1",
