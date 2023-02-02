@@ -1,5 +1,5 @@
 {
-    "WarehouseName": "<SNOWFLAKE_WAREHOUSE_NAME>",
+    "WarehouseName": "WAREHOUSE_NAME",
     "Privilege": "USAGE",
-    "Role": "<SNOWFLAKE_ROLE_NAME>"
+    "Role": "ROLE_NAME"
 }

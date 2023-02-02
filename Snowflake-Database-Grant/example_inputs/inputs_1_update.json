@@ -1,0 +1,5 @@
+{
+    "DatabaseName": "<DATABASE_NAME>",
+    "Privilege": "MONITOR",
+    "Role": "<ROLE_NAME>"
+}

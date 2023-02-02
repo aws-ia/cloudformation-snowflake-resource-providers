@@ -1,12 +1,5 @@
 {
-    "TPSCode": "...",
-    "Title": "...",
-    "CoverSheetIncluded": "...",
-    "DueDate": "...",
-    "ApprovalDate": "...",
-    "Memo": "...",
-    "SecondCopyOfMemo": "...",
-    "TestCode": "...",
-    "Authors": "...",
-    "Tags": "..."
+    "WarehouseName": "<SNOWFLAKE_WAREHOUSE_NAME>",
+    "Privilege": "USAGE",
+    "Role": "<SNOWFLAKE_ROLE_NAME>"
 }

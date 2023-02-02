@@ -1,12 +1,5 @@
 {
-    "TPSCode": "...",
-    "Title": "...",
-    "CoverSheetIncluded": "...",
-    "DueDate": "...",
-    "ApprovalDate": "...",
-    "Memo": "...",
-    "SecondCopyOfMemo": "...",
-    "TestCode": "...",
-    "Authors": "...",
-    "Tags": "..."
+    "DatabaseName": "INVALIDNAME",
+    "Privilege": "USAGE",
+    "Role": "ROLE_NAME"
 }
