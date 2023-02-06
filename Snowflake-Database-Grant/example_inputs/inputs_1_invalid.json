@@ -1,5 +1,5 @@
 {
-    "DatabaseName": "<INVALID_NAME>",
+    "DatabaseName": "INVALID_NAME",
     "Privilege": "USAGE",
-    "Role": "<ROLE_NAME>"
+    "Role": "ROLE_NAME"
 }
