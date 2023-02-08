@@ -1,12 +1,5 @@
 {
-    "TPSCode": "...",
-    "Title": "...",
-    "CoverSheetIncluded": "...",
-    "DueDate": "...",
-    "ApprovalDate": "...",
-    "Memo": "...",
-    "SecondCopyOfMemo": "...",
-    "TestCode": "...",
-    "Authors": "...",
-    "Tags": "..."
+    "DatabaseName": "DATABASE_NAME",
+    "Privilege": "MONITOR",
+    "Role": "ROLE_NAME"
 }

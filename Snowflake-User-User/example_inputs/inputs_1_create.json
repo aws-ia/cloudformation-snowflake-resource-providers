@@ -1,8 +1,8 @@
 {
     "Name": "SAMCREATEDUSER",
-    "Password": "HunTEr2!Test",
+    "Password": "hunter2",
     "LoginName": "SAMLOGINNAME",
-    "DisplayName": "SAM DISPLAY NAME UPDATE",
+    "DisplayName": "SAM DISPLAY NAME",
     "FirstName": "SAM First Name",
     "MiddleName": "SAM Middle Name",
     "LastName": "SAM Last Name",
@@ -16,5 +16,5 @@
     "MinsToBypassMfa": 0,
     "RsaPublicKey": "",
     "RsaPublicKey2": "",
-    "Comment": "SAM Comment Updated"
-}
+    "Comment": "SAM Comment"
+  }

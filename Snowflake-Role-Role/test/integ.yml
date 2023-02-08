@@ -1,0 +1,6 @@
+Resources:
+  TestSnowflakeRoleRole:
+    Type: Snowflake::Role::Role
+    Properties:
+      Name: "SAMROLE"
+      Comment: "My SAM Role"

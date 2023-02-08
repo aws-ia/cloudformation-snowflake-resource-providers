@@ -1,0 +1,7 @@
+Resources:
+  TestSnowflakeDatabaseGrant:
+    Type: Snowflake::Database::Grant
+    Properties:
+      DatabaseName: "DATABASE_NAME"
+      Privilege: "USAGE"
+      Role: "ROLE_NAME"

@@ -1,12 +1,5 @@
 {
-    "TPSCode": "...",
-    "Title": "...",
-    "CoverSheetIncluded": "...",
-    "DueDate": "...",
-    "ApprovalDate": "...",
-    "Memo": "...",
-    "SecondCopyOfMemo": "...",
-    "TestCode": "...",
-    "Authors": "...",
-    "Tags": "..."
+    "WarehouseName": "WAREHOUSE_NAME",
+    "Privilege": "USAGE",
+    "Role": "ROLE_NAME"
 }

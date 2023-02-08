@@ -1,0 +1,6 @@
+Resources:
+  TestSnowflakeRoleGrant:
+    Type: Snowflake::Role::Grant
+    Properties:
+      RoleName: "ROLE_NAME"
+      User: "USER_NAME"
